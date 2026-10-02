@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Job Application</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Edit Job Application</h1>
+
+    <br>
+
+    <form method="POST">
+
+        <label>Company</label>
+        <input
+            type="text"
+            name="company"
+            value="{{ job['company'] }}"
+            required
+        >
+
+        <label>Role</label>
+        <input
+            type="text"
+            name="role"
+            value="{{ job['role'] }}"
+            minlength="2"
+            maxlength="100"
+            required
+        >
+
+        <label>Status</label>
+        <select name="status" required>
+            <option value="Applied" {% if job['status'] == 'Applied' %}selected{% endif %}>Applied</option>
+            <option value="Assessment" {% if job['status'] == 'Assessment' %}selected{% endif %}>Assessment</option>
+            <option value="Interview" {% if job['status'] == 'Interview' %}selected{% endif %}>Interview</option>
+            <option value="Offer" {% if job['status'] == 'Offer' %}selected{% endif %}>Offer</option>
+            <option value="Rejected" {% if job['status'] == 'Rejected' %}selected{% endif %}>Rejected</option>
+        </select>
+
+        <label>Application Date</label>
+        <input
+            type="date"
+            name="application_date"
+            value="{{ job['application_date'] or '' }}"
+        >
+
+        <label>Job URL</label>
+        <input
+            type="url"
+            name="job_url"
+            value="{{ job['job_url'] or '' }}"
+            minlength="2"
+            maxlength="500"
+            placeholder="https://..."
+        >
+
+        <label>Notes</label>
+        <textarea
+    name="notes"
+    rows="5"
+    placeholder="Add notes about this application..."
+    maxlength="1000"
+></textarea>
+
+        <button type="submit">Save Changes</button>
+
+    </form>
+
+    <br>
+
+    <a href="/" class="back-link">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

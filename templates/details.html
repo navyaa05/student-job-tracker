@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Application Details</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Application Details</h1>
+
+    <div class="details-card">
+
+        <h2>{{ job["company"] }}</h2>
+
+        <p>
+            <strong>Role:</strong>
+            {{ job["role"] }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+
+            <span class="status status-{{ job['status'] | lower }}">
+                {{ job["status"] }}
+            </span>
+        </p>
+
+        <p>
+            <strong>Application Date:</strong>
+            {{ job["application_date"] or "-" }}
+        </p>
+
+        <p>
+            <strong>Job Link:</strong>
+
+            {% if job["job_url"] %}
+                <a href="{{ job['job_url'] }}" target="_blank">
+                    View Job Posting
+                </a>
+            {% else %}
+                -
+            {% endif %}
+        </p>
+
+        <div class="notes-section">
+
+            <h3>Notes</h3>
+
+            <p>
+                {{ job["notes"] or "No notes added." }}
+            </p>
+
+        </div>
+
+        <br>
+
+        <a href="/edit/{{ job['id'] }}" class="back-link">
+            Edit Application
+        </a>
+
+        <br><br>
+
+        <a href="/" class="back-link">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Job Tracker</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Student Job Application Tracker</h1>
+<p class="subtitle">Track your applications from submission to offer.</p>
+<p class="last-updated">Application Tracker Dashboard</p>
+
+    <p>
+        Keep track of your applications, assessments, interviews and offers.
+    </p>
+
+    <br>
+
+    <a href="/add">
+        <button>+ Add New Job</button>
+    </a>
+    <div class="dashboard">
+
+    <div class="card">
+        <h3>Total</h3>
+        <p>{{ total }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Applied</h3>
+        <p>{{ applied }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Assessments</h3>
+        <p>{{ assessment }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Interviews</h3>
+        <p>{{ interview }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Offers</h3>
+        <p>{{ offer }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Rejected</h3>
+        <p>{{ rejected }}</p>
+    </div>
+
+</div>
+    <h2>My Applications</h2>
+    <input
+    type="text"
+    id="searchInput"
+    placeholder="Search company or role..."
+>
+<select id="statusFilter">
+    <option value="All">All Statuses</option>
+    <option value="Applied">Applied</option>
+    <option value="Assessment">Assessment</option>
+    <option value="Interview">Interview</option>
+    <option value="Offer">Offer</option>
+    <option value="Rejected">Rejected</option>
+</select>
+    {% if jobs %}
+
+  <div class="table-container">
+
+<table>
+
+        <thead>
+            <tr>
+    <th>Company</th>
+    <th>Role</th>
+    <th>Date</th>
+    <th>Status</th>
+    <th>Job Link</th>
+    <th>Notes</th>
+    <th>Actions</th>
+</tr>
+        </thead>
+
+        <tbody>
+
+            {% for job in jobs %}
+<tr>
+    <td>{{ job["company"] }}</td>
+
+    <td>{{ job["role"] }}</td>
+
+    <td>{{ job["application_date"] or "-" }}</td>
+
+    <td>
+        <span class="status status-{{ job['status'] | lower }}">
+            {{ job["status"] }}
+        </span>
+    </td>
+
+    <td>
+        {% if job["job_url"] %}
+            <a href="{{ job['job_url'] }}" target="_blank">
+                View Job
+            </a>
+        {% else %}
+            -
+        {% endif %}
+    </td>
+    <td>
+    {{ job["notes"] or "-" }}
+</td>
+
+    <td>
+    <a href="/details/{{ job['id'] }}">View</a>
+    |
+    <a href="/edit/{{ job['id'] }}">Edit</a>
+    |
+    <a
+        href="/delete/{{ job['id'] }}"
+        onclick="return confirm('Are you sure you want to delete this application?');"
+    >
+        Delete
+    </a>
+</td>
+</tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+    {% else %}
+
+        <p>No job applications added yet.</p>
+
+    {% endif %}
+
+</div>
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+
+    function filterJobs() {
+        const searchText = searchInput.value.toLowerCase();
+        const selectedStatus = statusFilter.value;
+
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(function (row) {
+            const company = row.cells[0].textContent.toLowerCase();
+            const role = row.cells[1].textContent.toLowerCase();
+            const status = row.cells[3].textContent.trim();
+
+            const matchesSearch =
+                company.includes(searchText) ||
+                role.includes(searchText);
+
+            const matchesStatus =
+                selectedStatus === "All" ||
+                status === selectedStatus;
+
+            if (matchesSearch && matchesStatus) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    searchInput.addEventListener("keyup", filterJobs);
+    statusFilter.addEventListener("change", filterJobs);
+</script>
+</body>
+</html>
