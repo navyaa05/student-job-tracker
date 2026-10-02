@@ -4,7 +4,7 @@ A web-based job application tracker built with Flask and SQLite to help students
 
 ## Features
 
-- Add job applications
+ Add job applications
 - Edit existing applications
 - Delete applications with confirmation
 - Track application status
@@ -36,7 +36,7 @@ A web-based job application tracker built with Flask and SQLite to help students
 
 ## Project Structure
 
-```text
+```
 student-job-tracker/
 │
 ├── templates/
@@ -51,5 +51,25 @@ student-job-tracker/
 ├── app.py
 ├── database.py
 ├── requirements.txt
-├── README.md
-└── jobs.db
+└── README.md
+
+```
+
+## How to Run
+
+1. Clone the repository
+git clone https://github.com/navyaa05/student-job-tracker.git
+
+2. Open the project
+cd student-job-tracker
+
+3. Install dependencies
+py -m pip install -r requirements.txt
+
+4. Run the application
+py app.py
+
+5. Open in your browser
+http://127.0.0.1:5000
+
+```
